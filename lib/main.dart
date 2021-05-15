@@ -5,18 +5,22 @@ void main() => runApp(MyApp());
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return MyAppState();
+    return _MyAppState();
   }
 }
 
-class MyAppState extends State<MyApp> {
-  int questionInd = 0;
+class _MyAppState extends State<MyApp> {
+  int _questionInd = 0;
 
   void ansQue() {
     setState(() {
-      questionInd += 1;
+      if (_questionInd == 1) {
+        _questionInd = 0;
+      } else {
+        _questionInd += 1;
+      }
     });
-    print("answer chosen for question $questionInd");
+    print("answer chosen for question $_questionInd");
   }
 
   @override
@@ -32,7 +36,7 @@ class MyAppState extends State<MyApp> {
           ),
           body: Column(
             children: [
-              Text(questions[questionInd]),
+              Text(questions[_questionInd]),
               RaisedButton(child: Text('Answer 1'), onPressed: ansQue),
               RaisedButton(
                   child: Text('Answer 2'),
