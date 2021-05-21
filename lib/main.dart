@@ -16,10 +16,10 @@ class _MyAppState extends State<MyApp> {
 
   void _answerQuestion() {
     setState(() {
-      if (_questionInd == 2) {
-        _questionInd = 0;
-      } else {
+      if (_questionInd < 3) {
         _questionInd += 1;
+      } else {
+        print('you did it');
       }
     });
     print("answer chosen for question $_questionInd");
@@ -42,19 +42,23 @@ class _MyAppState extends State<MyApp> {
       },
     ];
     return MaterialApp(
-      home: Scaffold(
-          appBar: AppBar(
-            title: Text('My First App'),
-          ),
-          body: Column(
-            children: [
-              Question(questions[_questionInd]['questionText']),
-              ...(questions[_questionInd]['answers'] as List<String>)
-                  .map((answer) {
-                return Answer(_answerQuestion, answer);
-              }).toList()
-            ],
-          )),
-    );
+        home: Scaffold(
+      appBar: AppBar(
+        title: Text('My First App'),
+      ),
+      body: _questionInd < 3
+          ? Column(
+              children: [
+                Question(questions[_questionInd]['questionText']),
+                ...(questions[_questionInd]['answers'] as List<String>)
+                    .map((answer) {
+                  return Answer(_answerQuestion, answer);
+                }).toList()
+              ],
+            )
+          : Center(
+              child: Text('You did it'),
+            ),
+    ));
   }
 }
