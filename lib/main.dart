@@ -15,8 +15,43 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int _questionInd = 0;
+  int _totalScore = 0;
+  var _questions = [
+    {
+      'questionText': 'What\'s your favourite colour?',
+      'answers': [
+        {'text': 'Green', 'score': 3},
+        {'text': 'Blue', 'score': 2},
+        {'text': 'Red', 'score': 4}
+      ],
+    },
+    {
+      'questionText': 'What\'s your favourite car?',
+      'answers': [
+        {'text': 'BMW', 'score': 3},
+        {'text': 'Mercedes', 'score': 4},
+        {'text': 'Audi', 'score': 5}
+      ],
+    },
+    {
+      'questionText': 'Who\'s your favourite animal?',
+      'answers': [
+        {'text': 'Elephant', 'score': 3},
+        {'text': 'Lion', 'score': 2},
+        {'text': 'Tiger', 'score': 3}
+      ],
+    },
+  ];
 
-  void _answerQuestion() {
+  void _resetQuiz() {
+    setState(() {
+      _questionInd = 0;
+      _totalScore = 0;
+    });
+  }
+
+  void _answerQuestion(int score) {
+    _totalScore += score;
     setState(() {
       if (_questionInd < 3) {
         _questionInd += 1;
@@ -29,20 +64,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var _questions = [
-      {
-        'questionText': 'What\'s your favourite colour?',
-        'answers': ['Green', 'Blue', 'Red'],
-      },
-      {
-        'questionText': 'What\'s your favourite car?',
-        'answers': ['BMW', 'Mercedes', 'Audi'],
-      },
-      {
-        'questionText': 'Who\'s your favourite animal?',
-        'answers': ['Elephant', 'Lion', 'Tiger'],
-      },
-    ];
     return MaterialApp(
         home: Scaffold(
             appBar: AppBar(
@@ -54,6 +75,6 @@ class _MyAppState extends State<MyApp> {
                     questionInd: _questionInd,
                     questions: _questions,
                   )
-                : Results()));
+                : Results(_totalScore, _resetQuiz)));
   }
 }
